@@ -37,7 +37,7 @@ if( //Verify POST Values are set.
 					'description' => $_POST['description']
 				));
 			} elseif($exists) { //If computer exists, but no confirm, send error.
-				echo '{"error":1, "message": "This object already exists."}';
+				echo 'This object already exists.';
 			} else {
 				$attributes = array( //Create the computer.
 					'cn' => $cn_escaped,
@@ -51,7 +51,7 @@ if( //Verify POST Values are set.
 			}
 		}
 	} else {
-		echo '{"error":0, "message": "Could not connect to LDAP server."}';
+		echo 'Could not connect to LDAP server.';
 	}
 	ldap_close($ldap);
 } else {
