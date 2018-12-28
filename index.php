@@ -72,6 +72,7 @@ if( //Verify POST Values are set.
 					'cn' => $cn_escaped,
 					'sAMAccountName' => strtoupper($cn_escaped).'$',
 					'objectClass' => 'computer',
+					'userAccountControl' => 4096,
 					'description' => $_POST['description']
 				);
 				if(empty($_POST['description'])) {
