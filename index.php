@@ -13,7 +13,11 @@ if( //Verify POST Values are set.
 	if(ldap_bind($ldap, $_POST['username'].'@'.$_POST['domain'], $_POST['password'])) { //Check if LDAP is connected.
 		if($_POST['function'] == 'list' && isset($_POST['filter']) && !empty($_POST['filter'])) { //List a specified OU.
 			$computers = array();
-			$result = ldap_list($ldap, $_POST['basedn'], $_POST['filter'], array('CN','description')); //Run the list search.
+			if(isset($_POST['recurse'])) { //If recurse search requested, run ldap_search(Recursive Search) instead of ldap_list(Single Level Search)
+				$result = ldap_search($ldap, $_POST['basedn'], $_POST['filter'], array('CN','description')); //Run the list search.
+			} else {
+				$result = ldap_list($ldap, $_POST['basedn'], $_POST['filter'], array('CN','description')); //Run the list search.
+			}
 			foreach(ldap_get_entries($ldap, $result) as $v) { //Clean raw ldap_list output into an array.
 				$desc = '';
 				if(isset($v['description']) && $v['description']['count'] == 1) {
